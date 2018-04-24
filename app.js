@@ -8,6 +8,12 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
+//Passport Config
+require('./config/passport')(passport);
+
+//Load Routes
+const auth = require('./routes/auth');
+
 const app = express();
 
 /*********************MIDDLEWARE********************/
@@ -21,6 +27,12 @@ const app = express();
 app.get('/', (req, res)=>{
    res.send('Hello'); 
 });
+
+//Use Routes
+app.use('/auth', auth);
+
+
+
 
 
 const port = process.env.PORT || 5000;
