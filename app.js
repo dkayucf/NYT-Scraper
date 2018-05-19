@@ -1,38 +1,58 @@
 const express = require('express');
 const path = require('path');
 const exphbs  = require('express-handlebars');
-const methodOverride = require('method-override');
-const session = require('express-session');
-const flash = require('connect-flash');
 const bodyParser = require('body-parser');
-const passport = require('passport');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 
-//Passport Config
-require('./config/passport')(passport);
-
-//Load Routes
-const auth = require('./routes/auth');
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const app = express();
 
-/*********************MIDDLEWARE********************/
-
-
-
-
-
 /**********************ROUTES***********************/
-//Main Route
-app.get('/', (req, res)=>{
-   res.send('Hello'); 
+//Load Routes
+const index = require('./routes/index');
+
+/*********************MIDDLEWARE********************/
+app.use(morgan('dev'));
+
+app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+
+// Body-Parser Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+//static folder
+app.use(express.static(__dirname + '/public'));
+
+//Mongoose connect
+mongoose.connect('mongodb://localhost/nytScraper')
+    .then(()=> console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
+
+
+/*----------------------USE ROUTES-------------------------*/
+app.use('/', index);
+
+
+app.use((req, res, next)=>{
+    const error = new Error('Not Found');
+    error.status = 404;
+    next(error);
 });
 
-//Use Routes
-app.use('/auth', auth);
-
-
-
+app.use((error, req, res, next)=>{
+    res.status(error.status || 500);
+    res.json({
+        error: {
+            message: error.message
+        }
+    });
+});
 
 
 const port = process.env.PORT || 5000;
