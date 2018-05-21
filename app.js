@@ -10,6 +10,10 @@ const cheerio = require("cheerio");
 
 const app = express();
 
+const {
+    truncate
+} = require('./helpers/hbs');
+
 /**********************ROUTES***********************/
 //Load Routes
 const index = require('./routes/index');
@@ -17,9 +21,13 @@ const index = require('./routes/index');
 /*********************MIDDLEWARE********************/
 app.use(morgan('dev'));
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+    helpers: {
+        truncate: truncate
+    },
+    defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
-
 
 // Body-Parser Middleware
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,10 +1,21 @@
-<div class="row">
+<div class="row mt-3">
     {{#each articles}}  
     <div class="col s12 m4 l4">
+      {{#if savedArticle}}
       <div class="card-panel">
         <span class="card-title"><a href="{{link}}">{{title}}</a></span>
-        <p>{{summary}}</p>
+        <p>{{truncate summary 150}}</p>
+        <span class="new badge mb-1" data-badge-caption="Article Saved"><i class="fas fa-check"></i></span>
+        <a href="/deleteArticle?id={{_id}}" class="btn red darken-3 mb-1">Delete Article</a>
+        <button class="btn yellow darken-3 mb-1 commentButton" data-id="{{_id}}" type="button">Add Comment</button>
       </div>
+      {{else}}
+        <div class="card-panel">
+        <span class="card-title"><a href="{{link}}">{{title}}</a></span>
+        <p>{{truncate summary 150}}</p>
+        <a href="/saveArticle?id={{_id}}" class="btn yellow darken-3">Save Article</a>
+      </div>
+      {{/if}}
     </div>
 {{/each}}
 </div>
