@@ -1,7 +1,7 @@
 {
-  "name": "storybooks",
+  "name": "nytscrapper",
   "version": "1.0.0",
-  "description": "App to share public or write private stories",
+  "description": "App to scrape NYT articles",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"

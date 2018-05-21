@@ -36,8 +36,10 @@ app.use(bodyParser.json());
 //static folder
 app.use(express.static(__dirname + '/public'));
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/nytScraper";
+
 //Mongoose connect
-mongoose.connect('mongodb://localhost/nytScraper')
+mongoose.connect(MONGODB_URI)
     .then(()=> console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
