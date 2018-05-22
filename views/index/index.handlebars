@@ -3,11 +3,27 @@
     <div class="col s12 m4 l4">
       {{#if savedArticle}}
       <div class="card-panel">
+        <span class="new badge mb-1 right" data-badge-caption="Article Saved"><i class="fas fa-check"></i></span>
         <span class="card-title"><a href="{{link}}">{{title}}</a></span>
         <p>{{truncate summary 150}}</p>
-        <span class="new badge mb-1" data-badge-caption="Article Saved"><i class="fas fa-check"></i></span>
-        <a href="/deleteArticle?id={{_id}}" class="btn red darken-3 mb-1">Delete Article</a>
-        <button class="btn yellow darken-3 mb-1 commentButton" data-id="{{_id}}" type="button">Add Comment</button>
+        <div class="row">
+          <div class="col l6">
+              <button class="btn yellow darken-3 mb-1 commentButton" data-id="{{_id}}" type="button">Comment</button>
+          </div>
+          <div class="col l6">
+              <a href="/deleteArticle?id={{_id}}" class="btn red darken-3 mb-1">Delete Article</a>
+          </div>
+        </div>
+        <div class="commentSection"></div>
+        <div class="displayComments">
+          {{#if comments}}
+            <div class="card-action">
+              <h5><i class="fas fa-user-circle mr-2"></i><span class="comments">{{comments}}</span></h5>
+            </div>
+          
+          {{else}}
+          {{/if}}
+        </div>
       </div>
       {{else}}
         <div class="card-panel">

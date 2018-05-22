@@ -66,5 +66,34 @@ module.exports = {
             });
         });
             
+    },
+    saveComments: (req, res) => {
+        let articleID = req.params.id;
+
+        console.log(articleID);
+        console.log(req.body.comments);
+        db.Articles.findOne({_id: articleID}).then(foundArticle => {
+            foundArticle.comments = req.body.comments;
+            console.log(foundArticle);
+            foundArticle.save().then(article => {
+                res.redirect('/displayArticles');
+            })
+        })
+    },
+    deleteArticle: (req, res) => {
+        let articleID = req.query.id;
+        console.log(articleID);
+        db.Articles.deleteOne({ _id: articleID }).then(deletedArticle=>{
+            res.redirect('/displayArticles');
+        })
+
+    },
+    viewSavedArticles: (req, res)=> {
+        db.Articles.find({savedArticle: true}).then(foundArticles => {
+      
+            res.render('index/index', {
+                articles: foundArticles
+            });
+        })
     }   
 };
